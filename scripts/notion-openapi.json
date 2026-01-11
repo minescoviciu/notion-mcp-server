@@ -758,10 +758,197 @@
                 "properties": {
                   "children": {
                     "type": "array",
+                    "description": "Child content to append to a container block as an array of block objects. Each block has a 'type' field and a corresponding type-specific object.",
                     "items": {
-                      "$ref": "#/components/schemas/blockObjectRequest"
-                    },
-                    "description": "Child content to append to a container block as an array of [block objects](ref:block)"
+                      "type": "object",
+                      "description": "A block object. Common types: 'paragraph', 'heading_1', 'heading_2', 'heading_3', 'bulleted_list_item', 'numbered_list_item', 'to_do', 'code', 'quote'.",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "description": "The type of block"
+                        },
+                        "paragraph": {
+                          "type": "object",
+                          "description": "Paragraph block content",
+                          "properties": {
+                            "rich_text": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "type": { "type": "string", "enum": ["text"] },
+                                  "text": {
+                                    "type": "object",
+                                    "properties": {
+                                      "content": { "type": "string" }
+                                    },
+                                    "required": ["content"]
+                                  }
+                                },
+                                "required": ["text"]
+                              }
+                            }
+                          }
+                        },
+                        "heading_1": {
+                          "type": "object",
+                          "properties": {
+                            "rich_text": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "type": { "type": "string", "enum": ["text"] },
+                                  "text": {
+                                    "type": "object",
+                                    "properties": {
+                                      "content": { "type": "string" }
+                                    },
+                                    "required": ["content"]
+                                  }
+                                },
+                                "required": ["text"]
+                              }
+                            }
+                          }
+                        },
+                        "heading_2": {
+                          "type": "object",
+                          "properties": {
+                            "rich_text": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "type": { "type": "string", "enum": ["text"] },
+                                  "text": {
+                                    "type": "object",
+                                    "properties": {
+                                      "content": { "type": "string" }
+                                    },
+                                    "required": ["content"]
+                                  }
+                                },
+                                "required": ["text"]
+                              }
+                            }
+                          }
+                        },
+                        "heading_3": {
+                          "type": "object",
+                          "properties": {
+                            "rich_text": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "type": { "type": "string", "enum": ["text"] },
+                                  "text": {
+                                    "type": "object",
+                                    "properties": {
+                                      "content": { "type": "string" }
+                                    },
+                                    "required": ["content"]
+                                  }
+                                },
+                                "required": ["text"]
+                              }
+                            }
+                          }
+                        },
+                        "bulleted_list_item": {
+                          "type": "object",
+                          "properties": {
+                            "rich_text": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "type": { "type": "string", "enum": ["text"] },
+                                  "text": {
+                                    "type": "object",
+                                    "properties": {
+                                      "content": { "type": "string" }
+                                    },
+                                    "required": ["content"]
+                                  }
+                                },
+                                "required": ["text"]
+                              }
+                            }
+                          }
+                        },
+                        "numbered_list_item": {
+                          "type": "object",
+                          "properties": {
+                            "rich_text": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "type": { "type": "string", "enum": ["text"] },
+                                  "text": {
+                                    "type": "object",
+                                    "properties": {
+                                      "content": { "type": "string" }
+                                    },
+                                    "required": ["content"]
+                                  }
+                                },
+                                "required": ["text"]
+                              }
+                            }
+                          }
+                        },
+                        "to_do": {
+                          "type": "object",
+                          "properties": {
+                            "rich_text": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "type": { "type": "string", "enum": ["text"] },
+                                  "text": {
+                                    "type": "object",
+                                    "properties": {
+                                      "content": { "type": "string" }
+                                    },
+                                    "required": ["content"]
+                                  }
+                                },
+                                "required": ["text"]
+                              }
+                            },
+                            "checked": { "type": "boolean" }
+                          }
+                        },
+                        "code": {
+                          "type": "object",
+                          "properties": {
+                            "rich_text": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "type": { "type": "string", "enum": ["text"] },
+                                  "text": {
+                                    "type": "object",
+                                    "properties": {
+                                      "content": { "type": "string" }
+                                    },
+                                    "required": ["content"]
+                                  }
+                                },
+                                "required": ["text"]
+                              }
+                            },
+                            "language": { "type": "string" }
+                          }
+                        }
+                      },
+                      "additionalProperties": true
+                    }
                   },
                   "after": {
                     "type": "string",
@@ -1228,7 +1415,25 @@
                 ],
                 "properties": {
                   "parent": {
-                    "$ref": "#/components/schemas/parentRequest"
+                    "type": "object",
+                    "description": "The parent of the new page. Provide ONE of: database_id (to create a page in a database), page_id (to create a subpage), or type='workspace' (to create a top-level page).",
+                    "properties": {
+                      "database_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "The ID of the database to create the page in"
+                      },
+                      "page_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "The ID of the parent page"
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "Set to 'workspace' to create a top-level page"
+                      }
+                    },
+                    "additionalProperties": true
                   },
                   "properties": {
                     "description": "The property values for the new page. The keys are the names or IDs of the property and the values are property values.",
@@ -1239,18 +1444,54 @@
                     "type": "array",
                     "description": "The content to be rendered on the new page, represented as an array of [block objects](https://developers.notion.com/reference/block).",
                     "items": {
-                      "type": "string"
+                      "$ref": "#/components/schemas/blockObjectRequest"
                     }
                   },
                   "icon": {
-                    "type": "string",
-                    "description": "The icon of the new page. Either an [emoji object](https://developers.notion.com/reference/emoji-object) or an [external file object](https://developers.notion.com/reference/file-object)..",
-                    "format": "json"
+                    "type": "object",
+                    "description": "The icon of the new page. Either an emoji object with 'emoji' property or an external file object with 'external.url' property.",
+                    "properties": {
+                      "emoji": {
+                        "type": "string",
+                        "description": "An emoji character"
+                      },
+                      "external": {
+                        "type": "object",
+                        "properties": {
+                          "url": {
+                            "type": "string",
+                            "description": "URL of the external icon image"
+                          }
+                        }
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": ["emoji", "external"],
+                        "description": "The type of icon"
+                      }
+                    },
+                    "additionalProperties": true
                   },
                   "cover": {
-                    "type": "string",
-                    "description": "The cover image of the new page, represented as a [file object](https://developers.notion.com/reference/file-object).",
-                    "format": "json"
+                    "type": "object",
+                    "description": "The cover image of the new page as an external file object.",
+                    "properties": {
+                      "external": {
+                        "type": "object",
+                        "properties": {
+                          "url": {
+                            "type": "string",
+                            "description": "URL of the cover image"
+                          }
+                        }
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": ["external"],
+                        "description": "The type of cover (always 'external')"
+                      }
+                    },
+                    "additionalProperties": true
                   }
                 }
               }
@@ -1678,26 +1919,48 @@
                 "properties": {
                   "filter": {
                     "type": "object",
-                    "description": "Filter conditions for querying the data source"
+                    "description": "Filter conditions for querying the data source. Use property name as key with filter criteria.",
+                    "additionalProperties": true
                   },
                   "sorts": {
                     "type": "array",
+                    "description": "Sort conditions for the query results.",
                     "items": {
-                      "$ref": "#/components/schemas/sortObject"
+                      "type": "object",
+                      "properties": {
+                        "property": {
+                          "type": "string",
+                          "description": "The name of the property to sort by"
+                        },
+                        "direction": {
+                          "type": "string",
+                          "enum": ["ascending", "descending"],
+                          "description": "The direction to sort: 'ascending' or 'descending'"
+                        },
+                        "timestamp": {
+                          "type": "string",
+                          "enum": ["created_time", "last_edited_time"],
+                          "description": "Sort by timestamp instead of property"
+                        }
+                      }
                     }
                   },
                   "start_cursor": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Pagination cursor from a previous response"
                   },
                   "page_size": {
                     "type": "integer",
-                    "default": 100
+                    "default": 100,
+                    "description": "Number of results to return (max 100)"
                   },
                   "archived": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "description": "Filter for archived pages"
                   },
                   "in_trash": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "description": "Filter for pages in trash"
                   }
                 }
               }
@@ -1838,20 +2101,57 @@
                 "properties": {
                   "title": {
                     "type": "array",
+                    "description": "The new title for the data source as an array of rich text objects.",
                     "items": {
-                      "$ref": "#/components/schemas/richTextRequest"
+                      "type": "object",
+                      "properties": {
+                        "text": {
+                          "type": "object",
+                          "properties": {
+                            "content": {
+                              "type": "string",
+                              "description": "The text content"
+                            }
+                          },
+                          "required": ["content"]
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": ["text"]
+                        }
+                      },
+                      "required": ["text"]
                     }
                   },
                   "description": {
                     "type": "array",
+                    "description": "The new description for the data source as an array of rich text objects.",
                     "items": {
-                      "$ref": "#/components/schemas/richTextRequest"
+                      "type": "object",
+                      "properties": {
+                        "text": {
+                          "type": "object",
+                          "properties": {
+                            "content": {
+                              "type": "string",
+                              "description": "The text content"
+                            }
+                          },
+                          "required": ["content"]
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": ["text"]
+                        }
+                      },
+                      "required": ["text"]
                     },
                     "maxItems": 100
                   },
                   "properties": {
                     "type": "object",
-                    "description": "Property schema updates"
+                    "description": "Property schema updates. Each key is a property name and value defines the property configuration.",
+                    "additionalProperties": true
                   }
                 }
               }
@@ -1924,16 +2224,45 @@
                 ],
                 "properties": {
                   "parent": {
-                    "$ref": "#/components/schemas/pageIdParentRequest"
+                    "type": "object",
+                    "description": "The parent page where this data source will be created.",
+                    "required": ["page_id"],
+                    "properties": {
+                      "page_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "The ID of the parent page"
+                      }
+                    },
+                    "additionalProperties": true
                   },
                   "properties": {
                     "type": "object",
-                    "description": "Property schema of data source"
+                    "description": "Property schema of data source. Each key is a property name and value defines the property type and configuration.",
+                    "additionalProperties": true
                   },
                   "title": {
                     "type": "array",
+                    "description": "The title of the data source as an array of rich text objects.",
                     "items": {
-                      "$ref": "#/components/schemas/richTextRequest"
+                      "type": "object",
+                      "properties": {
+                        "text": {
+                          "type": "object",
+                          "properties": {
+                            "content": {
+                              "type": "string",
+                              "description": "The text content"
+                            }
+                          },
+                          "required": ["content"]
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": ["text"]
+                        }
+                      },
+                      "required": ["text"]
                     },
                     "maxItems": 100
                   }
@@ -2096,7 +2425,27 @@
                 ],
                 "properties": {
                   "parent": {
-                    "$ref": "#/components/schemas/movePageParentRequest"
+                    "type": "object",
+                    "description": "The new parent for the page. Provide ONE of: database_id (to move to a database), page_id (to move under a page), or type='workspace' (to move to workspace root).",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": ["page_id", "database_id", "workspace"],
+                        "description": "The type of parent: 'page_id', 'database_id', or 'workspace'"
+                      },
+                      "page_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "The ID of the parent page (required when type is 'page_id')"
+                      },
+                      "database_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "The ID of the database (required when type is 'database_id')"
+                      }
+                    },
+                    "required": ["type"],
+                    "additionalProperties": true
                   }
                 }
               }
