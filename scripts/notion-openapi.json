@@ -1300,52 +1300,83 @@
                   },
                   "in_trash": {
                     "type": "boolean",
-                    "description": "Set to true to delete a block. Set to false to restore a block.",
+                    "description": "Set to true to move the page to trash. Set to false to restore the page.",
                     "default": false
                   },
                   "archived": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "description": "Set to true to archive the page. Set to false to unarchive."
+                  },
+                  "is_locked": {
+                    "type": "boolean",
+                    "description": "Set to true to lock the page for editing in the Notion UI. Set to false to unlock. Note: API updates are not restricted by this setting."
                   },
                   "icon": {
-                    "description": "A page icon for the page. Supported types are [external file object](https://developers.notion.com/reference/file-object) or [emoji object](https://developers.notion.com/reference/emoji-object).",
                     "type": "object",
+                    "description": "A page icon for the page. Either an emoji object with 'emoji' property or an external file object with 'external.url' property.",
                     "properties": {
                       "emoji": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "An emoji character"
+                      },
+                      "external": {
+                        "type": "object",
+                        "properties": {
+                          "url": {
+                            "type": "string",
+                            "description": "URL of the external icon image"
+                          }
+                        }
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": ["emoji", "external"],
+                        "description": "The type of icon"
                       }
                     },
-                    "additionalProperties": false,
-                    "required": [
-                      "emoji"
-                    ]
+                    "additionalProperties": true
                   },
                   "cover": {
                     "type": "object",
-                    "description": "A cover image for the page. Only [external file objects](https://developers.notion.com/reference/file-object) are supported.",
+                    "description": "A cover image for the page as an external file object.",
                     "properties": {
                       "external": {
                         "type": "object",
                         "properties": {
                           "url": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "URL of the cover image"
                           }
-                        },
-                        "additionalProperties": false,
-                        "required": [
-                          "url"
-                        ]
+                        }
                       },
                       "type": {
-                        "enum": [
-                          "external"
-                        ],
-                        "type": "string"
+                        "type": "string",
+                        "enum": ["external"],
+                        "description": "The type of cover (always 'external')"
                       }
                     },
-                    "required": [
-                      "external"
-                    ],
-                    "additionalProperties": false
+                    "additionalProperties": true
+                  },
+                  "template": {
+                    "type": "object",
+                    "description": "Apply a template to the page. Use type='default' to apply the data source's default template, or type='template_id' with a specific template_id.",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": ["none", "default", "template_id"],
+                        "description": "The template type: 'none' (no template), 'default' (use data source default template), or 'template_id' (use specific template)"
+                      },
+                      "template_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "The ID of the template to apply (required when type is 'template_id')"
+                      }
+                    },
+                    "additionalProperties": true
+                  },
+                  "erase_content": {
+                    "type": "boolean",
+                    "description": "Set to true to delete all block children before applying templates. WARNING: This is a destructive action that cannot be reversed using the API."
                   }
                 }
               }
@@ -1489,6 +1520,23 @@
                         "type": "string",
                         "enum": ["external"],
                         "description": "The type of cover (always 'external')"
+                      }
+                    },
+                    "additionalProperties": true
+                  },
+                  "template": {
+                    "type": "object",
+                    "description": "Apply a template to the new page. Use type='default' to apply the data source's default template, or type='template_id' with a specific template_id. Cannot be used with 'children' parameter.",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": ["none", "default", "template_id"],
+                        "description": "The template type: 'none' (no template), 'default' (use data source default template), or 'template_id' (use specific template)"
+                      },
+                      "template_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "The ID of the template to apply (required when type is 'template_id')"
                       }
                     },
                     "additionalProperties": true
